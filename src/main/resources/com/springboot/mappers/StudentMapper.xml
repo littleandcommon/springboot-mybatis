@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.springboot.mapper.StudentMapper" >
+  <resultMap id="BaseResultMap" type="com.springboot.model.Student" >
+    <id column="stu_no" property="stuNo" jdbcType="CHAR" />
+    <result column="stu_name" property="stuName" jdbcType="CHAR" />
+    <result column="stu_age" property="stuAge" jdbcType="INTEGER" />
+    <result column="course_no" property="courseNo" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    stu_no, stu_name, stu_age, course_no
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from student
+    where stu_no = #{stuNo,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from student
+    where stu_no = #{stuNo,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="com.springboot.model.Student" >
+    insert into student (stu_no, stu_name, stu_age, 
+      course_no)
+    values (#{stuNo,jdbcType=CHAR}, #{stuName,jdbcType=CHAR}, #{stuAge,jdbcType=INTEGER}, 
+      #{courseNo,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.springboot.model.Student" >
+    insert into student
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="stuNo != null" >
+        stu_no,
+      </if>
+      <if test="stuName != null" >
+        stu_name,
+      </if>
+      <if test="stuAge != null" >
+        stu_age,
+      </if>
+      <if test="courseNo != null" >
+        course_no,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="stuNo != null" >
+        #{stuNo,jdbcType=CHAR},
+      </if>
+      <if test="stuName != null" >
+        #{stuName,jdbcType=CHAR},
+      </if>
+      <if test="stuAge != null" >
+        #{stuAge,jdbcType=INTEGER},
+      </if>
+      <if test="courseNo != null" >
+        #{courseNo,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.springboot.model.Student" >
+    update student
+    <set >
+      <if test="stuName != null" >
+        stu_name = #{stuName,jdbcType=CHAR},
+      </if>
+      <if test="stuAge != null" >
+        stu_age = #{stuAge,jdbcType=INTEGER},
+      </if>
+      <if test="courseNo != null" >
+        course_no = #{courseNo,jdbcType=CHAR},
+      </if>
+    </set>
+    where stu_no = #{stuNo,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.springboot.model.Student" >
+    update student
+    set stu_name = #{stuName,jdbcType=CHAR},
+      stu_age = #{stuAge,jdbcType=INTEGER},
+      course_no = #{courseNo,jdbcType=CHAR}
+    where stu_no = #{stuNo,jdbcType=CHAR}
+  </update>
+</mapper>
